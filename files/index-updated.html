@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkySense - Weather Intelligence Reimagined</title>
+    <link rel="stylesheet" href="skysense-style-updated.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- PREMIUM CUSTOM CURSOR -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- SPLASH SCREEN -->
+    <div class="splash" id="splash">
+      <div class="splash-content">
+        <div class="splash-logo">
+          <div class="weather-icon-animated">⛅</div>
+        </div>
+        <h1 class="splash-title">SkySense</h1>
+        <div class="loading-bar">
+          <div class="loading-progress"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HERO VIDEO SECTION -->
+    <section class="hero" id="hero">
+      <div class="hero-video-container">
+        <!-- WORKING YouTube Embed -->
+        <iframe
+          id="heroVideoIframe"
+          src="https://www.youtube.com/embed/l0wPHyIa8pE?autoplay=1&mute=1&loop=1&playlist=l0wPHyIa8pE&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
+          frameborder="0"
+          allow="
+            accelerometer;
+            autoplay;
+            clipboard-write;
+            encrypted-media;
+            gyroscope;
+            picture-in-picture;
+          "
+          allowfullscreen
+          class="hero-video"
+        >
+        </iframe>
+        <div class="hero-gradient-overlay"></div>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-text">AI-Powered Weather</span>
+        </div>
+
+        <h1 class="hero-title">
+          <span class="hero-title-main">SkySense</span>
+          <span class="hero-title-sub">Weather with Personality</span>
+        </h1>
+
+        <button class="hero-btn" id="heroBtn">
+          <span>Explore Weather</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M5 12h14M12 5l7 7-7 7"
+              stroke="currentColor"
+              stroke-width="2"
+            />
+          </svg>
+        </button>
+
+        <div class="scroll-indicator">
+          <div class="mouse">
+            <div class="wheel"></div>
+          </div>
+        </div>
+      </div>
+
+      <button class="skip-hero" id="skipHero">Skip →</button>
+    </section>
+
+    <!-- MAIN APP -->
+    <main class="app" id="app">
+      <!-- FLOATING HOME BUTTON -->
+      <button class="floating-home" id="floatingHome" title="Back to Top">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+        </svg>
+      </button>
+
+      <!-- PARALLAX BACKGROUND -->
+      <div class="parallax-bg">
+        <div class="parallax-layer" data-speed="0.2"></div>
+        <div class="parallax-layer" data-speed="0.5"></div>
+        <div class="parallax-layer" data-speed="0.8"></div>
+      </div>
+
+      <!-- CANVAS FOR WEATHER EFFECTS -->
+      <canvas id="weatherCanvas"></canvas>
+
+      <!-- HEADER -->
+      <header class="header">
+        <div class="header-left">
+          <div class="logo">
+            <span class="logo-icon">⛅</span>
+            <span class="logo-text">SkySense</span>
+          </div>
+        </div>
+
+        <div class="header-center">
+          <button class="header-btn" id="locationBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <circle cx="12" cy="12" r="3" fill="currentColor" />
+              <path
+                d="M12 2v4M12 18v4M2 12h4M18 12h4"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+            <span class="btn-label">Use My Location</span>
+          </button>
+
+          <button class="header-btn theme-btn" id="themeBtn">
+            <svg
+              class="sun-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle
+                cx="12"
+                cy="12"
+                r="5"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path
+                d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+            <svg
+              class="moon-icon"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              style="display: none"
+            >
+              <path
+                d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+            <span class="btn-label">Dark Mode</span>
+          </button>
+        </div>
+
+        <div class="header-right">
+          <div class="time-widget">
+            <div class="time" id="time">12:00</div>
+            <div class="date" id="date">Monday, Jan 1</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- SEARCH SECTION -->
+      <section class="search-section">
+        <div class="search-container">
+          <div class="search-box">
+            <svg
+              class="search-icon"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <circle
+                cx="11"
+                cy="11"
+                r="8"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+              <path
+                d="M21 21l-4.35-4.35"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+            <input
+              type="text"
+              id="cityInput"
+              class="search-input"
+              placeholder="Search for any city..."
+              autocomplete="off"
+            />
+            <div
+              class="city-suggestions"
+              id="citySuggestions"
+              style="display: none"
+            ></div>
+            <button class="search-btn" id="searchBtn">
+              <span>Search</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M5 12h14M12 5l7 7-7 7"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- WEATHER CONTENT -->
+      <div class="weather-content" id="weatherContent" style="display: none">
+        <!-- MAIN WEATHER CARD -->
+        <div class="weather-hero">
+          <div class="weather-location">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"
+                stroke="currentColor"
+                stroke-width="2"
+              />
+            </svg>
+            <h2 class="location-name" id="locationName">City Name</h2>
+          </div>
+
+          <div class="weather-main">
+            <div class="temperature">
+              <span class="temp-number" id="tempNumber">25</span>
+              <span class="temp-symbol">°C</span>
+            </div>
+            <div class="weather-icon-large" id="weatherIconLarge">☀️</div>
+          </div>
+
+          <div class="weather-info">
+            <p class="weather-description" id="weatherDescription">Clear Sky</p>
+            <p class="feels-like-text">
+              Feels like <span id="feelsLikeTemp">23</span>°C
+            </p>
+          </div>
+        </div>
+
+        <!-- WEATHER STATS -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+            <div class="stat-info">
+              <p class="stat-label">Humidity</p>
+              <p class="stat-value" id="humidityValue">65%</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M9.59 4.59A2 2 0 1111 8H2M12 12a2 2 0 002 2h6M6 12h10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+            <div class="stat-info">
+              <p class="stat-label">Wind Speed</p>
+              <p class="stat-value" id="windValue">12 km/h</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" />
+              </svg>
+            </div>
+            <div class="stat-info">
+              <p class="stat-label">Pressure</p>
+              <p class="stat-value" id="pressureValue">1013 hPa</p>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="3"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+            <div class="stat-info">
+              <p class="stat-label">Visibility</p>
+              <p class="stat-value" id="visibilityValue">10 km</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FUN RECOMMENDATIONS WITH GIFS -->
+        <div class="recommendations">
+          <!-- OUTFIT CARD -->
+          <div class="rec-card outfit-rec">
+            <div class="rec-media">
+              <img id="outfitGif" class="rec-gif" alt="Outfit recommendation" />
+              <div class="rec-overlay"></div>
+            </div>
+            <div class="rec-content">
+              <div class="rec-header">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                  <circle
+                    cx="9"
+                    cy="7"
+                    r="4"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                </svg>
+                <h3>What to Wear</h3>
+              </div>
+              <p class="rec-text" id="outfitText">Loading...</p>
+              <span class="rec-emoji" id="outfitEmoji">👕</span>
+            </div>
+          </div>
+
+          <!-- ACTIVITY CARD -->
+          <div class="rec-card activity-rec">
+            <div class="rec-media">
+              <img
+                id="activityGif"
+                class="rec-gif"
+                alt="Activity recommendation"
+              />
+              <div class="rec-overlay"></div>
+            </div>
+            <div class="rec-content">
+              <div class="rec-header">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  />
+                </svg>
+                <h3>Perfect For</h3>
+              </div>
+              <p class="rec-text" id="activityText">Loading...</p>
+              <span class="rec-emoji" id="activityEmoji">☕</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- WEATHER MOOD GALLERY -->
+        <div class="mood-section">
+          <h3 class="section-title">Weather Vibes 📸</h3>
+          <div class="mood-grid">
+            <div class="mood-main">
+              <img id="moodImageMain" class="mood-img" alt="Weather mood" />
+              <div class="mood-info">
+                <p id="moodCaption">Beautiful weather today</p>
+              </div>
+            </div>
+            <div class="mood-side">
+              <div class="mood-small">
+                <img id="moodImage1" class="mood-img" alt="Weather" />
+              </div>
+              <div class="mood-small">
+                <img id="moodImage2" class="mood-img" alt="Weather" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5-DAY FORECAST -->
+        <div class="forecast-section">
+          <h3 class="section-title">5-Day Forecast 📅</h3>
+          <div class="forecast-grid" id="forecastGrid">
+            <!-- Forecast cards will be inserted here -->
+          </div>
+        </div>
+      </div>
+
+      <!-- ERROR MESSAGE -->
+      <div class="error-message" id="errorMessage" style="display: none">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+          <circle
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="2"
+          />
+          <path d="M12 8v4M12 16h.01" stroke="currentColor" stroke-width="2" />
+        </svg>
+        <h3>Oops!</h3>
+        <p id="errorText">City not found. Please try again.</p>
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <p>Powered by <strong>OpenWeather API</strong></p>
+        <p>Made with <span class="heart">♥</span> by SkySense</p>
+      </footer>
+    </main>
+
+    <script src="skysense-script-updated.js"></script>
+    <script>
+      // Ultra-minimal version - just show the app immediately
+      document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+          document.getElementById("splash").style.display = "none";
+          document.getElementById("hero").style.display = "none";
+          const app = document.getElementById("app");
+          app.style.opacity = "1";
+          app.style.transform = "translateY(0)";
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>
